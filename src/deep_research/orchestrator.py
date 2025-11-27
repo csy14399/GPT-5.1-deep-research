@@ -67,7 +67,8 @@ class ResearchOrchestrator:
 
     def _fetch_pages(self, results: List[SearchResult]) -> List[PageContent]:
         pages: List[PageContent] = []
-        for result in results[: self.config.search_results]:
+        max_pages = self.config.search_results * self.config.max_search_rounds
+        for result in results[:max_pages]:
             try:
                 pages.append(self.fetcher.fetch(result.url))
             except Exception as exc:  # pragma: no cover - network error path
